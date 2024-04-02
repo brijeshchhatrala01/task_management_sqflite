@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:task_management/database/task_database.dart';
 import 'package:task_management/model/taskmodel.dart';
 import 'package:task_management/pages/homepage.dart';
@@ -94,6 +95,20 @@ class _AddTaskState extends State<AddTask> {
                   ),
                   smallSizedBox,
                   TextFormField(
+                    onTap:  () async {
+                      await showDatePicker(
+                        context: context,
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2024, DateTime.monthsPerYear),
+                      ).then(
+                            (value) {
+                          if (value != null) {
+                            _dateController.text =
+                                value.toString().substring(0,11);
+                          }
+                        },
+                      );
+                    },
                     controller: _dateController,
                     readOnly: true,
                     validator: (value) {
@@ -123,7 +138,7 @@ class _AddTaskState extends State<AddTask> {
                             (value) {
                               if (value != null) {
                                 _dateController.text =
-                                    value.toString().substring(0, 11).trim();
+                                    value.toString().substring(0,11);
                               }
                             },
                           );
@@ -141,6 +156,21 @@ class _AddTaskState extends State<AddTask> {
                           ? "Please Enter Required Fields"
                           : null;
                     },
+                    onTap: () async {
+                      final TimeOfDay? time = await showTimePicker(
+                        context: context,
+                        initialTime:
+                        TimeOfDay.fromDateTime(DateTime.now()),
+
+                      );
+                      if(time != null){
+                        var df = DateFormat("h:mm a");
+                        var dt = df.parse(time!.format(context));
+                        var finaltime =  DateFormat('HH:mm').format(dt);
+                        _timeController.text = finaltime.toString();
+                      }
+
+                    },
                     decoration: InputDecoration(
                         errorStyle: errorTextStyle,
                         errorBorder: OutlineInputBorder(
@@ -155,18 +185,25 @@ class _AddTaskState extends State<AddTask> {
                         hintText: "Select Time",
                         prefixIcon: IconButton(
                             onPressed: () async {
-                              await showTimePicker(
+                              final TimeOfDay? time = await showTimePicker(
                                 context: context,
                                 initialTime:
                                     TimeOfDay.fromDateTime(DateTime.now()),
-                              ).then(
-                                (value) {
-                                  if (value != null) {
-                                    _timeController.text =
-                                        ("${value.hour.toString()}:${value.minute.toString()}");
-                                  }
-                                },
+
                               );
+                              if(time != null){
+                                var df = DateFormat("h:mm a");
+                                var dt = df.parse(time!.format(context));
+                                var finaltime =  DateFormat('HH:mm').format(dt);
+                                _timeController.text = finaltime.toString();
+                              }
+                              //     .then(
+                              //   (value) {
+                              //     if (value != null) {
+                              //       _timeController.text = "${value.hour.toString()}:${value.minute.toString()}";
+                              //     }
+                              //   },
+                              // );
                             },
                             icon: const Icon(Icons.access_time))),
                   ),

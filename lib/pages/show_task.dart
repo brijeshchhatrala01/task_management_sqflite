@@ -126,83 +126,76 @@ class _ShowTaskState extends State<ShowTask> {
                                               BorderRadius.circular(16),
                                         )
                                       ]),
-                                  child: Card(
-                                    color: data['task_completed'].toString() ==
-                                            "true"
-                                        ? Colors.grey
-                                        : DateTime.now().isAfter(DateTime.parse(
-                                                    data['task_date']
-                                                        .toString())) &&
-                                                TimeOfDay.now().hour >=
-                                                    int.parse(data['task_time']
-                                                        .toString()
-                                                        .substring(0, 2))
-                                            ? Colors.blue.shade200
-                                            : int.parse(data['task_priority']
-                                                        .toString()) >=
-                                                    4
-                                                ? Colors.red.shade200
-                                                : int.parse(data['task_priority'].toString()) > 2 &&
-                                                        int.parse(data['task_priority'].toString()) < 4
-                                                    ? Colors.blue.shade200
-                                                    : Colors.green.shade200,
-                                    shape: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(18.0),
-                                      child: Column(
-                                        children: [
-                                          RowTaskData(
-                                            iconData: Icons.task_alt,
-                                            taskfieldName: "Task Name",
-                                            taskData:
-                                                data['task_name'].toString(),
-                                            isCompleted: isCompleted,
-                                          ),
-                                          // RowTaskData(
-                                          //   iconData: Icons.view_stream,
-                                          //   taskfieldName: "Task Discription",
-                                          //   taskData:
-                                          //       "${data!['task_discription'].toString().substring(0, 5)}...",
-                                          // ),
-                                          RowTaskData(
-                                            iconData: Icons.date_range,
-                                            taskfieldName: "Task Date",
-                                            taskData:
-                                                data['task_date'].toString(),
-                                            isCompleted: isCompleted,
-                                          ),
-                                          RowTaskData(
-                                            iconData: Icons.access_time,
-                                            taskfieldName: "Task Time",
-                                            taskData:
-                                                data['task_time'].toString(),
-                                            isCompleted: isCompleted,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              const Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Icon(Icons.priority_high),
-                                                  Text("Priority"),
-                                                ],
-                                              ),
-                                              Slider(
-                                                  min: 1,
-                                                  max: 5,
-                                                  divisions: 4,
-                                                  value: double.parse(
-                                                      data['task_priority']
-                                                          .toString()),
-                                                  onChanged: null),
-                                            ],
-                                          )
-                                        ],
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Card(
+                                      color: data['task_completed'].toString() ==
+                                              "true"
+                                          ? Colors.grey
+                                          : DateTime.now().isAfter(DateTime.parse(
+                                                      data['task_date']
+                                                          .toString()+data['task_time'].toString().trim()+":00"))
+                                              ? Colors.cyanAccent.shade200
+                                              : int.parse(data['task_priority']
+                                                          .toString()) >=
+                                                      4
+                                                  ? Colors.red.shade200
+                                                  : int.parse(data['task_priority'].toString()) > 2 &&
+                                                          int.parse(data['task_priority'].toString()) < 4
+                                                      ? Colors.blue.shade200
+                                                      : Colors.green.shade200,
+                                      shape: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(18.0),
+                                        child: Column(
+                                          children: [
+                                            RowTaskData(
+                                              iconData: Icons.task_alt,
+                                              taskfieldName:"Task Name",
+                                              taskData:
+                                                  data['task_name'].toString(),
+                                              isCompleted: isCompleted,
+                                            ),
+                                            RowTaskData(
+                                              iconData: Icons.date_range,
+                                              taskfieldName: "Task Date",
+                                              taskData:
+                                                  data['task_date'].toString(),
+                                              isCompleted: isCompleted,
+                                            ),
+                                            RowTaskData(
+                                              iconData: Icons.access_time,
+                                              taskfieldName: "Task Time",
+                                              taskData:
+                                                  data['task_time'].toString(),
+                                              isCompleted: isCompleted,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                const Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    Icon(Icons.priority_high),
+                                                    Text("Priority"),
+                                                  ],
+                                                ),
+                                                Slider(
+                                                    min: 1,
+                                                    max: 5,
+                                                    divisions: 4,
+                                                    value: double.parse(
+                                                        data['task_priority']
+                                                            .toString()),
+                                                    onChanged: null),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -257,15 +250,12 @@ class _ShowTaskState extends State<ShowTask> {
                                   color: task['task_completed'].toString() ==
                                           "true"
                                       ? Colors.grey
-                                      : DateTime.now().isAfter(DateTime.parse(
-                                                  task['task_date']
-                                                      .toString())) &&
-                                              TimeOfDay.now().hour >=
-                                                  int.parse(task['task_time']
-                                                      .toString()
-                                                      .substring(0, 2))
-                                          ? Colors.blue.shade200
-                                          : int.parse(task['task_priority']
+                                  :DateTime.now().isAfter(DateTime.parse(
+                                      task['task_date']
+                                          .toString()+task['task_time'].toString().trim()+":00"))
+                                      ? Colors.cyanAccent.shade200
+
+                                      : int.parse(task['task_priority']
                                                       .toString()) >=
                                                   4
                                               ? Colors.red.shade200
