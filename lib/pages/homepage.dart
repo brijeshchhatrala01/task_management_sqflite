@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:task_management/database/task_database.dart';
-import 'package:task_management/pages/add_task.dart';
 import 'package:task_management/pages/search_task.dart';
 import 'package:task_management/pages/show_task.dart';
 import 'package:task_management/pages/util/bottom_nav_bar.dart';
-import 'package:task_management/theme/colors.dart';
 import 'package:task_management/theme/theme.dart';
 
 class Homepage extends StatefulWidget {
@@ -16,7 +13,6 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-
   TaskDatabase taskDatabase = TaskDatabase();
 
   @override
@@ -33,13 +29,17 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
-  List<Widget> pages = [
-    const ShowTask(),
-    SearchTask(),
-  ];
+  bool isListView = true;
 
   @override
   Widget build(BuildContext context) {
+    List pages = [
+      ShowTask(
+        isListView: isListView,
+      ),
+      const SearchTask(),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -49,8 +49,14 @@ class _HomepageState extends State<Homepage> {
         actions: [
           _selectedIndex == 0
               ? IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.list),
+                  onPressed: () {
+                    setState(() {
+                      isListView = !isListView;
+                    });
+                  },
+                  icon: isListView
+                      ? const Icon(Icons.grid_on)
+                      : const Icon(Icons.list),
                 )
               : Container()
         ],

@@ -20,7 +20,7 @@ class TaskDatabase {
             task_completed TEXT NOT NULL,
             task_name TEXT NOT NULL,
             task_discription TEXT NOT NULL,
-            task_date TEXT NOT NULL,
+            task_date DATETIME NOT NULL,
             task_time TEXT NOT NULL,
             task_priority INTEGER NOT NULL        
           );
@@ -40,17 +40,43 @@ class TaskDatabase {
         conflictAlgorithm: ConflictAlgorithm.abort);
   }
 
-  Future<Map<String, Object?>?> getTaskByName(String task_name) async {
+  Future<List<Map<String, Object?>>> getTaskByName(String task_name) async {
     database = await getDatabaseObject();
-    var listData = await database
-        .query(TABLENAME, where: 'task_name = ?', whereArgs: [task_name]);
+    var listData = await database.query(TABLENAME,
+        where: 'task_name = ?',
+        whereArgs: [task_name],
+        orderBy: 'task_date, task_time ASC');
 
-    return listData.first;
+    return listData;
   }
 
   Future<List<Map<String, Object?>>> fetchAllTask() async {
     database = await getDatabaseObject();
-    var listData = await database.query(TABLENAME,orderBy: 'task_priority DESC');
+    var listData =
+        await database.query(TABLENAME, orderBy: 'task_priority DESC');
     return listData;
+  }
+
+  Future<List<Map<String, Object?>>> filterByDate() async {
+    database = await getDatabaseObject();
+    var listData =
+        await database.query(TABLENAME, orderBy: 'task_date, task_time ASC');
+    return listData;
+  }
+
+  Future<Map<String,Object?>> getTaskDataById(int id) async {
+    database = await getDatabaseObject();
+    var data = await database.query(TABLENAME,where: "id = ?",whereArgs: [id]);
+    return data.first;
+  }
+
+  Future<void> updateTaskById(int id,TaskModel taskModel) async {
+    database = await getDatabaseObject();
+    database.update(TABLENAME, taskModel.toMap(),where: "id = ?",whereArgs: [id],conflictAlgorithm: ConflictAlgorithm.ignore);
+  }
+
+  Future<void> deleteTaskById(int id) async {
+    database = await getDatabaseObject();
+    database.delete(TABLENAME,where: "id = ?",whereArgs: [id]);
   }
 }

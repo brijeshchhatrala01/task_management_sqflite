@@ -4,12 +4,14 @@ import 'package:task_management/theme/theme.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String hintText;
+  final IconData iconData;
   final TextEditingController controller;
   final TextInputType? keyboardType;
   final int maxLine;
   const CustomTextFormField(
       {super.key,
       required this.hintText,
+      required this.iconData,
       required this.controller,
       required this.keyboardType,
       required this.maxLine});
@@ -24,9 +26,14 @@ class CustomTextFormField extends StatelessWidget {
         return value!.isEmpty ? "Please Enter Required Fields" : null;
       },
       decoration: InputDecoration(
+        prefixIcon: Icon(iconData),
         errorStyle: errorTextStyle,
-        errorBorder: OutlineInputBorder(borderSide: BorderSide(color: errorColor),borderRadius: BorderRadius.circular(12)),
-        focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: errorColor),borderRadius: BorderRadius.circular(12)),
+        errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: errorColor),
+            borderRadius: BorderRadius.circular(12)),
+        focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: errorColor),
+            borderRadius: BorderRadius.circular(12)),
         hintText: hintText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

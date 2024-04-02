@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 class TaskModel {
   final String task_completed;
   final String task_name;
