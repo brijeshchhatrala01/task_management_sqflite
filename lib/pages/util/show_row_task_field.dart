@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:task_management/theme/theme.dart';
 
+
+//custom row with some widget to show data for show_task.dart file and show data in search file
 class RowTaskData extends StatelessWidget {
   final bool isCompleted;
   final IconData iconData;

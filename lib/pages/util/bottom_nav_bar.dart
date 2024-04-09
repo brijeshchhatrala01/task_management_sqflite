@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:task_management/theme/colors.dart';
 
+
+//custom bottom navigationbar for homepage
 class CustomBottomNavigationBar extends StatelessWidget {
   final Function(int value)? onTabChange;
   const CustomBottomNavigationBar({super.key, required this.onTabChange});

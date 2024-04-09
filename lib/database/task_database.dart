@@ -13,6 +13,7 @@ class TaskDatabase {
       version: 1,
       join(await getDatabasesPath(), DATABASENAME),
       onCreate: (db, version) async {
+        //create table
         await db.execute('''
           CREATE TABLE IF NOT EXISTS $TABLENAME
           (
@@ -29,17 +30,20 @@ class TaskDatabase {
     );
   }
 
+  //get open database object
   Future<Database> getDatabaseObject() async {
     return openDatabase(join(await getDatabasesPath(), DATABASENAME),
         version: 1);
   }
 
+  //add task to database
   Future<void> addTask(TaskModel taskModel) async {
     database = await getDatabaseObject();
     database.insert(TABLENAME, taskModel.toMap(),
         conflictAlgorithm: ConflictAlgorithm.abort);
   }
 
+  //get list of task by name by first date and time
   Future<List<Map<String, Object?>>> getTaskByName(String task_name) async {
     database = await getDatabaseObject();
     var listData = await database.query(TABLENAME,
@@ -50,6 +54,7 @@ class TaskDatabase {
     return listData;
   }
 
+  //fetch all task by particular order by descending priority
   Future<List<Map<String, Object?>>> fetchAllTask() async {
     database = await getDatabaseObject();
     var listData =
@@ -57,6 +62,8 @@ class TaskDatabase {
     return listData;
   }
 
+
+  //filter all task by date and time
   Future<List<Map<String, Object?>>> filterByDate() async {
     database = await getDatabaseObject();
     var listData =
@@ -64,17 +71,20 @@ class TaskDatabase {
     return listData;
   }
 
+  //get paricular task by id for search task
   Future<Map<String,Object?>> getTaskDataById(int id) async {
     database = await getDatabaseObject();
     var data = await database.query(TABLENAME,where: "id = ?",whereArgs: [id]);
     return data.first;
   }
 
+  //update task by its id
   Future<void> updateTaskById(int id,TaskModel taskModel) async {
     database = await getDatabaseObject();
     database.update(TABLENAME, taskModel.toMap(),where: "id = ?",whereArgs: [id],conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
+  //delete task by id
   Future<void> deleteTaskById(int id) async {
     database = await getDatabaseObject();
     database.delete(TABLENAME,where: "id = ?",whereArgs: [id]);

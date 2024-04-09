@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:task_management/pages/homepage.dart';
 import 'package:task_management/theme/theme.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
+//materialapp widget
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

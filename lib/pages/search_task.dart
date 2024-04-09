@@ -121,8 +121,7 @@ class _SearchTaskState extends State<SearchTask> {
                             "true"
                             ? Colors.grey
                             : DateTime.now().isAfter(DateTime.parse(
-                            data['task_date']
-                                .toString()+data['task_time'].toString().trim()+":00"))
+                            "${data['task_date']}${data['task_time'].toString().trim()}:00"))
                             ? Colors.cyanAccent.shade200
                             : int.parse(data['task_priority']
                             .toString()) >=
@@ -146,13 +145,7 @@ class _SearchTaskState extends State<SearchTask> {
                                 data['task_name'].toString(),
                                 isCompleted: isCompleted,
                               ),
-                              // RowTaskData(
-                              //   iconData: Icons.view_stream,
-                              //   taskfieldName: "Task Discription",
-                              //   taskData:
-                              //       "${data!['task_discription'].toString().substring(0, 5)}...",
-                              // ),
-                              RowTaskData(
+                             RowTaskData(
                                 iconData: Icons.date_range,
                                 taskfieldName: "Task Date",
                                 taskData:

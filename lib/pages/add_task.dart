@@ -1,5 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:task_management/database/task_database.dart';
 import 'package:task_management/model/taskmodel.dart';
@@ -95,16 +96,16 @@ class _AddTaskState extends State<AddTask> {
                   ),
                   smallSizedBox,
                   TextFormField(
-                    onTap:  () async {
+                    onTap: () async {
                       await showDatePicker(
                         context: context,
                         firstDate: DateTime.now(),
                         lastDate: DateTime(2024, DateTime.monthsPerYear),
                       ).then(
-                            (value) {
+                        (value) {
                           if (value != null) {
                             _dateController.text =
-                                value.toString().substring(0,11);
+                                value.toString().substring(0, 11);
                           }
                         },
                       );
@@ -138,7 +139,7 @@ class _AddTaskState extends State<AddTask> {
                             (value) {
                               if (value != null) {
                                 _dateController.text =
-                                    value.toString().substring(0,11);
+                                    value.toString().substring(0, 11);
                               }
                             },
                           );
@@ -159,53 +160,43 @@ class _AddTaskState extends State<AddTask> {
                     onTap: () async {
                       final TimeOfDay? time = await showTimePicker(
                         context: context,
-                        initialTime:
-                        TimeOfDay.fromDateTime(DateTime.now()),
-
+                        initialTime: TimeOfDay.fromDateTime(DateTime.now()),
                       );
-                      if(time != null){
+                      if (time != null) {
                         var df = DateFormat("h:mm a");
-                        var dt = df.parse(time!.format(context));
-                        var finaltime =  DateFormat('HH:mm').format(dt);
+                        var dt = df.parse(time.format(context));
+                        var finaltime = DateFormat('HH:mm').format(dt);
                         _timeController.text = finaltime.toString();
                       }
-
                     },
                     decoration: InputDecoration(
-                        errorStyle: errorTextStyle,
-                        errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: errorColor),
-                            borderRadius: BorderRadius.circular(12)),
-                        focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: errorColor),
-                            borderRadius: BorderRadius.circular(12)),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        hintText: "Select Time",
-                        prefixIcon: IconButton(
-                            onPressed: () async {
-                              final TimeOfDay? time = await showTimePicker(
-                                context: context,
-                                initialTime:
-                                    TimeOfDay.fromDateTime(DateTime.now()),
-
-                              );
-                              if(time != null){
-                                var df = DateFormat("h:mm a");
-                                var dt = df.parse(time!.format(context));
-                                var finaltime =  DateFormat('HH:mm').format(dt);
-                                _timeController.text = finaltime.toString();
-                              }
-                              //     .then(
-                              //   (value) {
-                              //     if (value != null) {
-                              //       _timeController.text = "${value.hour.toString()}:${value.minute.toString()}";
-                              //     }
-                              //   },
-                              // );
-                            },
-                            icon: const Icon(Icons.access_time))),
+                      errorStyle: errorTextStyle,
+                      errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: errorColor),
+                          borderRadius: BorderRadius.circular(12)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: errorColor),
+                          borderRadius: BorderRadius.circular(12)),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      hintText: "Select Time",
+                      prefixIcon: IconButton(
+                        onPressed: () async {
+                          final TimeOfDay? time = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.fromDateTime(DateTime.now()),
+                          );
+                          if (time != null) {
+                            var df = DateFormat("h:mm a");
+                            var dt = df.parse(time.format(context));
+                            var finaltime = DateFormat('HH:mm').format(dt);
+                            _timeController.text = finaltime.toString();
+                          }
+                        },
+                        icon: const Icon(Icons.access_time),
+                      ),
+                    ),
                   ),
                   smallSizedBox,
                   Container(
@@ -264,11 +255,10 @@ class _AddTaskState extends State<AddTask> {
                             task_time: _timeController.text,
                             task_priority: _sliderValue.toInt());
 
-                        if (widget.taskId != 0) {
-                          taskDatabase.updateTaskById(widget.taskId, taskData);
-                        } else {
-                          taskDatabase.addTask(taskData);
-                        }
+                        widget.taskId != 0
+                            ? taskDatabase.updateTaskById(
+                                widget.taskId, taskData)
+                            : taskDatabase.addTask(taskData);
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
@@ -277,11 +267,11 @@ class _AddTaskState extends State<AddTask> {
                       }
                     },
                     icon: widget.taskId == 0
-                        ? Icon(Icons.add_task)
-                        : Icon(Icons.update),
+                        ? const Icon(Icons.add_task)
+                        : const Icon(Icons.update),
                     label: widget.taskId == 0
-                        ? Text('A D D  T A S K')
-                        : Text('U P D A T E  T A S K'),
+                        ? const Text('A D D  T A S K')
+                        : const Text('U P D A T E  T A S K'),
                   ),
                 ],
               ),

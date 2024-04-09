@@ -44,6 +44,7 @@ class _ShowTaskState extends State<ShowTask> {
     );
   }
 
+  late DateTime dateTime;
   @override
   void initState() {
     fetchAllData();
@@ -86,6 +87,10 @@ class _ShowTaskState extends State<ShowTask> {
                         ? Expanded(
                             child: ListView(
                               children: taskData!.map((data) {
+                                dateTime = DateTime.parse(
+                                        "${data['task_date']}${data['task_time'].toString().trim()}:00")
+                                    .toLocal();
+
                                 bool isCompleted = bool.parse(
                                     data['task_completed'].toString());
                                 return Slidable(
@@ -133,15 +138,19 @@ class _ShowTaskState extends State<ShowTask> {
                                               "true"
                                           ? Colors.grey
                                           : DateTime.now().isAfter(DateTime.parse(
-                                                      data['task_date']
-                                                          .toString()+data['task_time'].toString().trim()+":00"))
+                                                  "${data['task_date']}${data['task_time']
+                                                          .toString()
+                                                          .trim()}:00"))
                                               ? Colors.cyanAccent.shade200
-                                              : int.parse(data['task_priority']
-                                                          .toString()) >=
+                                              : int.parse(data['task_priority'].toString()) >=
                                                       4
                                                   ? Colors.red.shade200
-                                                  : int.parse(data['task_priority'].toString()) > 2 &&
-                                                          int.parse(data['task_priority'].toString()) < 4
+                                                  : int.parse(data['task_priority']
+                                                                  .toString()) >
+                                                              2 &&
+                                                          int.parse(data['task_priority']
+                                                                  .toString()) <
+                                                              4
                                                       ? Colors.blue.shade200
                                                       : Colors.green.shade200,
                                       shape: OutlineInputBorder(
@@ -153,7 +162,7 @@ class _ShowTaskState extends State<ShowTask> {
                                           children: [
                                             RowTaskData(
                                               iconData: Icons.task_alt,
-                                              taskfieldName:"Task Name",
+                                              taskfieldName: "Task Name",
                                               taskData:
                                                   data['task_name'].toString(),
                                               isCompleted: isCompleted,
@@ -174,7 +183,8 @@ class _ShowTaskState extends State<ShowTask> {
                                             ),
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 const Row(
                                                   mainAxisAlignment:
@@ -209,7 +219,6 @@ class _ShowTaskState extends State<ShowTask> {
                             children: taskData!.map((task) {
                               bool isCompleted =
                                   bool.parse(task['task_completed'].toString());
-                              print(isCompleted);
                               return GestureDetector(
                                 onLongPress: () {
                                   showDialog(
@@ -230,7 +239,7 @@ class _ShowTaskState extends State<ShowTask> {
                                                     ));
                                               },
                                               icon: const Icon(Icons.edit),
-                                              label: Text("Edit")),
+                                              label: const Text("Edit")),
                                           ElevatedButton.icon(
                                               onPressed: () {
                                                 TaskDatabase().deleteTaskById(
@@ -240,7 +249,7 @@ class _ShowTaskState extends State<ShowTask> {
                                                 fetchAllData();
                                               },
                                               icon: const Icon(Icons.delete),
-                                              label: Text("Delete"))
+                                              label: const Text("Delete"))
                                         ],
                                       );
                                     },
@@ -250,17 +259,21 @@ class _ShowTaskState extends State<ShowTask> {
                                   color: task['task_completed'].toString() ==
                                           "true"
                                       ? Colors.grey
-                                  :DateTime.now().isAfter(DateTime.parse(
-                                      task['task_date']
-                                          .toString()+task['task_time'].toString().trim()+":00"))
-                                      ? Colors.cyanAccent.shade200
-
-                                      : int.parse(task['task_priority']
-                                                      .toString()) >=
+                                      : DateTime.now().isAfter(DateTime.parse(
+                                              "${task['task_date']}${task['task_time']
+                                                      .toString()
+                                                      .trim()}:00"))
+                                          ? Colors.cyanAccent.shade200
+                                          : int.parse(task['task_priority'].toString()) >=
                                                   4
                                               ? Colors.red.shade200
-                                              : int.parse(task['task_priority'].toString()) > 2 &&
-                                                      int.parse(task['task_priority'].toString()) < 4
+                                              : int.parse(task['task_priority']
+                                                              .toString()) >
+                                                          2 &&
+                                                      int.parse(
+                                                              task['task_priority']
+                                                                  .toString()) <
+                                                          4
                                                   ? Colors.blue.shade200
                                                   : Colors.green.shade200,
                                   child: Padding(
