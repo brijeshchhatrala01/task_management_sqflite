@@ -1,6 +1,7 @@
 # task_management
 
-![alt text](Screenshot_1713253399.png) ![alt text](Screenshot_1713253406.png) ![alt text](Screenshot_1713253440.png) ![alt text](Screenshot_1713253473.png)
+![Screenshot_1713253399](https://github.com/brijeshchhatrala01/task_management_sqflite/assets/152954177/6baf8ca8-7a4e-421d-a1ef-5aa67b5eca00)
+
 
 A new Flutter project.
 
